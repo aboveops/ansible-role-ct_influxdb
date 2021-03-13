@@ -1,0 +1,4 @@
+---
+ct_influxdb_ct_volume_conf:
+  - "{{ ct_influxdb_path_conf }}:{{ ct_influxdb_ct_path_conf }}"
+...

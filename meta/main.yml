@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Valentin Gostev
+  description: Ansible role deploys Grafana Loki container
+  role_name: ct_influxdb
+  license: MIT
+  min_ansible_version: 2.8
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal
+  galaxy_tags:
+    - influx
+    - influxdb
+    - database
+    - databases
+    - tsdb
+    - timeseries
+allow_duplicates: false
+dependencies: []
+...

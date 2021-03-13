@@ -1,0 +1,7 @@
+---
+ct_influxdb_ct_env_docker_influxdb_init_mode: "setup"
+ct_influxdb_ct_env_docker_influxdb_init_username: "admin"
+ct_influxdb_ct_env_docker_influxdb_init_password: "changeme"
+ct_influxdb_ct_env_docker_influxdb_init_org: "my-org"
+ct_influxdb_ct_env_docker_influxdb_init_bucket: "my-bucket"
+...

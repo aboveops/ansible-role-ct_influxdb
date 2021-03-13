@@ -1,0 +1,75 @@
+---
+ct_influxdb_task_prefix: "=== INFLUXDB CT ==="
+# ######################################################
+# Common settings
+# ######################################################
+ct_influxdb_enable_ports: true
+ct_influxdb_persist_conf: true
+ct_influxdb_persist_data: true
+ct_influxdb_auto_setup: true
+# ######################################################
+# Path settings
+# ######################################################
+ct_influxdb_path_conf_base: "/etc/ct_influxdb"
+ct_influxdb_path_conf: "{{ ct_influxdb_path_conf_base }}/{{ ct_influxdb_ct_name }}"
+ct_influxdb_template_env: "env.j2"
+ct_influxdb_path_conf_env: "{{ ct_influxdb_path_conf_base }}/{{ ct_influxdb_ct_name }}.env"
+# Path to configuration directory inside container
+ct_influxdb_ct_path_conf: "/etc/influxdb2"
+ct_influxdb_path_base: "/srv/ct_influxdb"
+ct_influxdb_path_data: "{{ ct_influxdb_path_base }}/{{ ct_influxdb_ct_name }}"
+# Path to data directory inside container
+ct_influxdb_ct_path_data: "/var/lib/influxdb2"
+# ######################################################
+# Network settings
+# ######################################################
+ct_influxdb_bind_addr: "127.0.0.1"
+ct_influxdb_bind_port_http: "8086"
+ct_influxdb_bind_ct_port_http: "8086"
+# ######################################################
+# Container settings
+# ######################################################
+ct_influxdb_ct_name: "influxdb"
+ct_influxdb_ct_image: "influxdb"
+ct_influxdb_ct_version: "latest"
+ct_influxdb_ct_restart_policy: "always"
+ct_influxdb_ct_state: "started"
+ct_influxdb_ct_restart: "no"
+ct_influxdb_ct_pull: "no"
+ct_influxdb_ct_recreate: "no"
+ct_influxdb_ct_ports_http:
+  - "{{ ct_influxdb_bind_addr }}:{{ ct_influxdb_bind_port_http }}:{{ ct_influxdb_bind_ct_port_http }}"
+ct_influxdb_ct_ports_extra: []
+ct_influxdb_ct_ports: []
+ct_influxdb_ct_volume_conf: []
+ct_influxdb_ct_volume_data: []
+ct_influxdb_ct_volumes_extra: []
+ct_influxdb_ct_volumes: "{{ ct_influxdb_ct_volume_conf + ct_influxdb_ct_volume_data + ct_influxdb_ct_volumes_extra }}"
+# ######################################################
+# Environment variables
+# ######################################################
+# This variable allows to pass arbitrary env variables to container, see example
+ct_influxdb_ct_env_extra: {}
+# ct_influxdb_ct_env_extra:
+#   CUSTOM_ENV_VAR1: some_value
+#   CUSTOM_ENV_VAR2: "Another value"
+# ######################################################
+# Variables below are required for automated setup script
+# The values below are loaded as defaults from `vars/auto_setup.yml`
+# if {{ ct_influxdb_auto_setup }} is true.
+# In case you want to use an upgrade scenario from InfluxDB version 1
+# set {{ ct_influxdb_auto_setup }} to true and
+# {{ ct_influxdb_ct_env_docker_influxdb_init_mode }} to "upgrade" and
+# adjust other variables in your playbook
+ct_influxdb_ct_env_docker_influxdb_init_mode: "setup"
+ct_influxdb_ct_env_docker_influxdb_init_username: "admin"
+ct_influxdb_ct_env_docker_influxdb_init_password: "changeme"
+ct_influxdb_ct_env_docker_influxdb_init_org: "my-org"
+ct_influxdb_ct_env_docker_influxdb_init_bucket: "my-bucket"
+# ######################################################
+# Variables below are optional and used only when {{ ct_influxdb_auto_setup }} is true
+# Configuring variable below will enable retention on your InfluxDB instance
+# ct_influxdb_ct_env_docker_influxdb_init_retention: "1w"
+# You can pre-define admin token, if not defined - token will be auto-generated
+# ct_influxdb_ct_env_docker_influxdb_init_admin_token: "admin-auth-token"
+...

@@ -1,0 +1,52 @@
+---
+- name: "{{ ct_influxdb_task_prefix }} Enable automated setup?"
+  include_vars: auto_setup.yml
+  when: ct_influxdb_auto_setup|bool
+- name: "{{ ct_influxdb_task_prefix }} Enable ports?"
+  include_vars: enable_ports.yml
+  when: ct_influxdb_enable_ports|bool
+- name: "{{ ct_influxdb_task_prefix }} Persist config?"
+  include_vars: persist_conf.yml
+  when: ct_influxdb_persist_conf|bool
+- name: "{{ ct_influxdb_task_prefix }} Persist data?"
+  include_vars: persist_data.yml
+  when: ct_influxdb_persist_data|bool
+- name: "{{ ct_influxdb_task_prefix }} Create config base directory"
+  file:
+    path: "{{ ct_influxdb_path_conf_base }}"
+    state: directory
+    recurse: true
+    mode: '0755'
+- name: "{{ ct_influxdb_task_prefix }} Create mountable config directory"
+  file:
+    path: "{{ ct_influxdb_path_conf }}"
+    state: directory
+    recurse: true
+    mode: '0755'
+  when: ct_influxdb_persist_conf|bool
+- name: "{{ ct_influxdb_task_prefix }} Create data directory"
+  file:
+    path: "{{ ct_influxdb_path_data }}"
+    state: directory
+    recurse: true
+    mode: '0755'
+  when: ct_influxdb_persist_data|bool
+- name: "{{ ct_influxdb_task_prefix }} Create env file"
+  template:
+    src: "{{ ct_influxdb_template_env }}"
+    dest: "{{ ct_influxdb_path_conf_env }}"
+    mode: '0644'
+- name: "{{ ct_influxdb_task_prefix }} Create container"
+  docker_container:
+    name: "{{ ct_influxdb_ct_name }}"
+    image: "{{ ct_influxdb_ct_image }}:{{ ct_influxdb_ct_version }}"
+    env_file: "{{ ct_influxdb_path_conf_env }}"
+    restart_policy: "{{ ct_influxdb_ct_restart_policy }}"
+    state: "{{ ct_influxdb_ct_state }}"
+    restart: "{{ ct_influxdb_ct_restart }}"
+    pull: "{{ ct_influxdb_ct_pull }}"
+    recreate: "{{ ct_influxdb_ct_recreate }}"
+    ports: "{{ ct_influxdb_ct_ports }}"
+    container_default_behavior: "no_defaults"
+    volumes: "{{ ct_influxdb_ct_volumes }}"
+...
